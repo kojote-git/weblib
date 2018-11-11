@@ -1,18 +1,18 @@
 package com.jkojote.weblib.application;
 
-import com.jkojote.weblib.config.MvcConfig;
+import com.jkojote.weblib.config.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { MvcConfig.class };
+        return new Class[] { WebConfig.class };
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { MvcConfig.class };
+        return new Class[] { WebConfig.class };
     }
 
     @Override
