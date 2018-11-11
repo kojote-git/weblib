@@ -10,7 +10,7 @@
           th:href="@{/css/bootstrap-4.1.3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../css/main-page.css" th:href="@{/css/main-page.css}"/>
 </head>
-<body ng-app="sampleData">
+<body ng-app="main-page">
     <header>
         <div class="pre-search-group">
             <div class="profile-actions">
@@ -38,6 +38,7 @@
         </div>
         <div id="filters-section">
             <div class="filters">
+                <h3 align="center">Filters</h3>
                 <div class="filter">
                     <div class="filter-name">
                         Average Rating
@@ -50,15 +51,15 @@
             </div>
         </div>
         <div id="results">
-            <div id="found-books" ng-controller="SampleDataController">
+            <div id="found-books" ng-controller="BooksController">
                 <ul class="items">
                     <li class="item item-thumbnail-wrapper" ng-repeat="book in books">
                         <div class="item-thumbnail">
-                            <div class="book-cover">
-                                <a href="{{book.url}}">
+                            <a href="{{book.url}}">
+                                <div class="book-cover">
                                     <img ng-src="{{book.imageUrl}}" src="" alt=""/>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                             <div class="item-attributes">
                                 <div class="item-attribute book-title">
                                     <a href="{{book.url}}">
@@ -75,7 +76,7 @@
                                 <div class="item-attribute">
                                     Rating:
                                     <span class="book-rating {{getClassNameForRating(book.averageRating)}}">
-                                    {{book.averageRating}}
+                                        {{getRatingValue(book.averageRating)}}
                                 </span>
                                 </div>
                             </div>
@@ -88,5 +89,6 @@
 </body>
 <script src="../js/angular.min.js" th:src="@{/js/angular.min.js}"></script>
 <script src="../js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
-<script src="../js/angularSample.js"></script>
+<script src="../js/main-page.js" th:src="@{/js/main-page.js}"></script>
+<!--<script src="../js/sample-data.js"></script>-->
 </html>

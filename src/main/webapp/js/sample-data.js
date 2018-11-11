@@ -1,11 +1,27 @@
-let sampleData = angular.module("sampleData", []);
-sampleData.controller("SampleDataController", function SampleDataController($scope) {
+const sampleData = angular.module("sampleData", []);
+sampleData.controller("BooksController", function BooksController($scope) {
+    $scope.getClassNameForRating = function (rating) {
+        let tRating = parseFloat(rating);
+        if (tRating < 0)
+            return "not-rated";
+        if (tRating < 4)
+            return "red";
+        if (tRating < 7)
+            return "orange";
+        return "green";
+    };
+    $scope.getRatingValue = function(rating) {
+        let tRating = parseFloat(rating);
+        if (tRating < 0)
+            return "not rated yet";
+        return tRating;
+    };
     $scope.books = [
         {
             url: "#",
             imageUrl: "https://images-eu.ssl-images-amazon.com/images/I/517R971LWaL.jpg",
             title: "The God Delusion",
-            averageRating: 9.1,
+            averageRating: -1,
             authors : [
                 {
                     url: "#",
@@ -74,12 +90,4 @@ sampleData.controller("SampleDataController", function SampleDataController($sco
             ]
         }
     ];
-    $scope.getClassNameForRating = function(rating) {
-        let tRating = parseFloat(rating);
-        if (tRating < 4)
-            return "red";
-        if (tRating < 7)
-            return "orange";
-        return "green";
-    }
 });
