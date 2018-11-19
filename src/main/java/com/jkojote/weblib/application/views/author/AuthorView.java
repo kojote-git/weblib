@@ -1,4 +1,4 @@
-package com.jkojote.weblib.application.views;
+package com.jkojote.weblib.application.views.author;
 
 public class AuthorView {
 

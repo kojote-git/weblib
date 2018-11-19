@@ -3,7 +3,7 @@ package com.jkojote.weblib.application.converters;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.jkojote.weblib.application.JsonConverter;
-import com.jkojote.weblib.application.views.AuthorView;
+import com.jkojote.weblib.application.views.author.AuthorView;
 import org.springframework.stereotype.Component;
 
 @Component("authorViewJsonConverter")

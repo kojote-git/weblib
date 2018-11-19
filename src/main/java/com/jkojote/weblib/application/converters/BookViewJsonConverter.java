@@ -4,8 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.jkojote.weblib.application.JsonConverter;
-import com.jkojote.weblib.application.views.AuthorView;
-import com.jkojote.weblib.application.views.BookView;
+import com.jkojote.weblib.application.views.author.AuthorView;
+import com.jkojote.weblib.application.views.book.BookView;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 

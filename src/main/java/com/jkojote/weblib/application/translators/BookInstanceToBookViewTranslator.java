@@ -8,8 +8,8 @@ import com.jkojote.library.domain.shared.domain.DomainRepository;
 import com.jkojote.library.persistence.MapCache;
 import com.jkojote.weblib.application.Shared;
 import com.jkojote.weblib.application.ViewTranslator;
-import com.jkojote.weblib.application.views.AuthorView;
-import com.jkojote.weblib.application.views.BookView;
+import com.jkojote.weblib.application.views.author.AuthorView;
+import com.jkojote.weblib.application.views.book.BookView;
 import com.jkojote.weblib.utils.MapCacheImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,7 +32,7 @@ implements ViewTranslator<BookInstance, BookView> {
 
     private static final String URL = Shared.HOST + "books/";
 
-    private static final String LISE_URL = Shared.LISE + "instances/";
+    private static final String LISE_URL = Shared.LISE + "rest/instances/";
 
     @Autowired
     public BookInstanceToBookViewTranslator(

@@ -1,9 +1,12 @@
-package com.jkojote.weblib.application.views;
+package com.jkojote.weblib.application.views.book;
 
+
+import com.jkojote.library.domain.shared.domain.ViewObject;
+import com.jkojote.weblib.application.views.author.AuthorView;
 
 import java.util.List;
 
-public class BookView {
+public class BookView implements ViewObject {
 
     private String imageUrl;
 

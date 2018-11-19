@@ -2,7 +2,7 @@ package com.jkojote.weblib.application.translators;
 
 import com.jkojote.library.domain.model.author.Author;
 import com.jkojote.weblib.application.ViewTranslator;
-import com.jkojote.weblib.application.views.AuthorView;
+import com.jkojote.weblib.application.views.author.AuthorView;
 import org.springframework.stereotype.Component;
 
 @Component("authorToAuthorViewTranslator")
