@@ -1,7 +1,5 @@
 package com.jkojote.weblib.application.views.author;
 
-import com.jkojote.library.values.Name;
-import com.jkojote.weblib.config.WebConfig;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 

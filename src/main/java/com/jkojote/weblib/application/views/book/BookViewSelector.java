@@ -16,20 +16,34 @@ import java.util.stream.Collectors;
 @Component("bookViewSelector")
 public class BookViewSelector implements PageableViewSelector<BookView> {
 
-    private static final String SELECT_ALL =
-        "SELECT " +
-          "work.id, work.title, bookInstance.format, bookInstance.id, ratings.averageRating " +
-        "FROM BookInstance AS bookInstance " +
-          "INNER JOIN Book AS book " +
-            "ON bookInstance.bookId = book.id " +
-          "INNER JOIN Work AS work " +
-            "ON book.workId = work.id " +
-          "LEFT JOIN ( " +
-            "SELECT " +
-              "bookInstanceId, AVG(readerRating) AS averageRating " +
-            "FROM Download GROUP BY bookInstanceId " +
-          ") AS ratings " +
-            "ON ratings.bookInstanceId = bookInstance.id ";
+    private static final String SELECT_ALL;
+
+    static {
+        SELECT_ALL = new StringBuilder()
+                .append("SELECT ")
+                  .append("book.title AS book_title, ")
+                  .append("book.id AS book_id, ")
+                  .append("book.lang AS book_lang, ")
+                  .append("book.workId AS work_id, ")
+                  .append("rating.average AS rating_average, ")
+                  .append("bookInstance.id AS book_instance_id ")
+                .append("FROM Book AS book ")
+                .append("LEFT JOIN ( ")
+                  .append("SELECT MIN(bi1.id) AS id, bi1.bookId ")
+                  .append("FROM BookInstance bi1 ")
+                  .append("LEFT JOIN (")
+                    .append("SELECT id FROM BookInstance WHERE OCTET_LENGTH(cover) > 0")
+                  .append(") AS bi2 ")
+                    .append("ON bi1.id = bi2.id ")
+                    .append("GROUP BY bi1.bookId")
+                .append(") AS bookInstance ")
+                  .append("ON bookInstance.bookId = book.id ")
+                .append("LEFT JOIN (")
+                  .append("SELECT bookId, AVG(rating) AS average FROM Rating GROUP BY bookId")
+                .append(") AS rating ")
+                  .append("ON rating.bookId = book.id")
+                .toString();
+    }
 
 
     private JdbcTemplate jdbcTemplate;

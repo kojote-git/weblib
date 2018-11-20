@@ -2,8 +2,6 @@ package com.jkojote.weblib.application.controllers.rest;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.jkojote.library.domain.model.book.instance.BookInstance;
-import com.jkojote.library.domain.shared.domain.DomainRepository;
 import com.jkojote.library.domain.shared.domain.ViewSelector;
 import com.jkojote.weblib.application.JsonConverter;
 import com.jkojote.weblib.application.views.book.BookView;
@@ -25,7 +23,6 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/rest/books")
 public class BookController {
-
 
     private JsonConverter<BookView> bookViewJsonConverter;
 
@@ -58,7 +55,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public ResponseEntity<String> getById(@PathVariable("id") long id) {
-        List<BookView> bookViews = bookViewSelector.select(view -> view.getInstanceId() == id);
+        List<BookView> bookViews = bookViewSelector.select(view -> view.getId() == id);
         if (bookViews.size() == 0)
             return ControllerUtils.errorResponse("no bookInstance with id " + id, NOT_FOUND);
         String response = bookViewJsonConverter.convertToString(bookViews.get(0));

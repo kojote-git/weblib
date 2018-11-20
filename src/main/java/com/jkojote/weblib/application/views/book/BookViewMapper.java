@@ -4,6 +4,7 @@ import com.jkojote.library.persistence.MapCache;
 import com.jkojote.weblib.application.Shared;
 import com.jkojote.weblib.application.views.author.AuthorView;
 import com.jkojote.weblib.utils.MapCacheImpl;
+import com.neovisionaries.i18n.LanguageCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,31 +49,32 @@ public class BookViewMapper implements RowMapper<BookView> {
 
     @Override
     public BookView mapRow(ResultSet rs, int rowNum) throws SQLException {
-        String
-            title = rs.getString("work.title"),
-            format = rs.getString("bookInstance.format");
-        long
-            instanceId = rs.getLong("bookInstance.id"),
-            workId = rs.getLong("work.id");
-        Object ratingObj = rs.getObject("ratings.averageRating");
-        float rating;
-        if (ratingObj == null)
-            rating = -1;
-        else
-            rating = (Float) ratingObj;
-        List<AuthorView> authorViews = getAuthorViews(workId);
+        String title = rs.getString("book_title");
+        long bookId = rs.getLong("book_id");
+        LanguageCode lang = LanguageCode.getByCode(rs.getString("book_lang"));
+        long workId = rs.getLong("work_id");
+        float average = rs.getFloat("rating_average");
+        long instanceId = rs.getLong("book_instance_id");
+        List<AuthorView> authors = getAuthorViews(workId);
+        String coverUrl;
+        if (instanceId == 0) {
+            coverUrl = Shared.HOST + "res/no-image-available.jpg";
+        } else {
+            coverUrl = new StringBuilder(Shared.LISE)
+                    .append("rest/instances/")
+                    .append(instanceId)
+                    .append("/cover")
+                    .toString();
+        }
+        average = average == 0 ? -1 : average;
         return BookView.BookViewBuilder.aBookView()
+                .withAverageRating(average)
+                .withAuthors(authors)
+                .withImageUrl(coverUrl)
+                .withUrl(Shared.HOST + "books/" + bookId)
                 .withTitle(title)
-                .withInstanceId(instanceId)
-                .withFormat(format)
-                .withAverageRating(rating)
-                .withAuthors(authorViews)
-                .withUrl(URL + instanceId)
-                .withFileUrl(LISE_URL + instanceId + "/file")
-                .withImageUrl(LISE_URL + instanceId + "/cover")
                 .build();
     }
-
     private void cleanCache() {
         while (true) {
             try {

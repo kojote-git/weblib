@@ -8,21 +8,21 @@ import java.util.List;
 
 public class BookView implements ViewObject {
 
+    private long id;
+
     private String imageUrl;
 
     private String url;
 
     private String title;
 
-    private String fileUrl;
-
-    private String format;
-
     private float averageRating;
 
-    private long instanceId;
-
     private List<AuthorView> authors;
+
+    public long getId() {
+        return id;
+    }
 
     public String getImageUrl() {
         return imageUrl;
@@ -36,20 +36,8 @@ public class BookView implements ViewObject {
         return title;
     }
 
-    public String getFileUrl() {
-        return fileUrl;
-    }
-
     public float getAverageRating() {
         return averageRating;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public long getInstanceId() {
-        return instanceId;
     }
 
     public List<AuthorView> getAuthors() {
@@ -62,17 +50,13 @@ public class BookView implements ViewObject {
 
         private String url;
 
-        private String fileUrl;
+        private long id;
 
         private String title;
 
         private float averageRating;
 
-        private long instanceId;
-
         private List<AuthorView> authors;
-
-        private String format;
 
         private BookViewBuilder() {
         }
@@ -91,15 +75,6 @@ public class BookView implements ViewObject {
             return this;
         }
 
-        public BookViewBuilder withFormat(String format) {
-            this.format = format;
-            return this;
-        }
-
-        public BookViewBuilder withFileUrl(String fileUrl) {
-            this.fileUrl = fileUrl;
-            return this;
-        }
 
         public BookViewBuilder withTitle(String title) {
             this.title = title;
@@ -111,13 +86,13 @@ public class BookView implements ViewObject {
             return this;
         }
 
-        public BookViewBuilder withInstanceId(long instanceId) {
-            this.instanceId = instanceId;
+        public BookViewBuilder withAuthors(List<AuthorView> authors) {
+            this.authors = authors;
             return this;
         }
 
-        public BookViewBuilder withAuthors(List<AuthorView> authors) {
-            this.authors = authors;
+        public BookViewBuilder withId(long id) {
+            this.id = id;
             return this;
         }
 
@@ -126,11 +101,9 @@ public class BookView implements ViewObject {
             bookView.averageRating = this.averageRating;
             bookView.authors = this.authors;
             bookView.imageUrl = this.imageUrl;
-            bookView.instanceId = this.instanceId;
+            bookView.id = this.id;
             bookView.title = this.title;
             bookView.url = this.url;
-            bookView.fileUrl = this.fileUrl;
-            bookView.format = this.format;
             return bookView;
         }
     }

@@ -1,10 +1,10 @@
 package com.jkojote.weblib;
 
+import com.jkojote.library.domain.model.book.Book;
 import com.jkojote.library.domain.model.book.instance.BookInstance;
 import com.jkojote.library.domain.shared.domain.DomainRepository;
 import com.jkojote.library.domain.shared.domain.ViewSelector;
 import com.jkojote.weblib.application.JsonConverter;
-import com.jkojote.weblib.application.ViewTranslator;
 import com.jkojote.weblib.application.views.book.BookView;
 import com.jkojote.weblib.config.MvcConfig;
 import org.junit.Test;
@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,18 +23,11 @@ public class BookViewSelectorTest {
     private ViewSelector<BookView> bookViewSelector;
 
     @Autowired
-    private ViewTranslator<BookInstance, BookView> bookViewTranslator;
-
-    @Autowired
-    private DomainRepository<BookInstance> bookInstanceRpository;
-
-    @Autowired
-    private JsonConverter<BookView> jsonConverter;
+    private JsonConverter<BookView> bookViewJsonConverter;
 
     @Test
     public void selectAll() {
-        report(1000, bookViewSelector::selectAll);
-        report(1000, () -> bookViewTranslator.batchTranslate(bookInstanceRpository.findAll()));
+        report(10000, () -> bookViewSelector.selectAll());
     }
 
     private void report(int times, Action action) {
