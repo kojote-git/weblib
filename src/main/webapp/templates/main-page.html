@@ -10,7 +10,7 @@
           th:href="@{/css/bootstrap-4.1.3/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="../css/main-page.css" th:href="@{/css/main-page.css}"/>
 </head>
-<body ng-app="main-page">
+<body ng-app="main-page" ng-controller="BooksController">
     <header>
         <div class="pre-search-group">
             <div class="profile-actions">
@@ -33,25 +33,84 @@
         </div>
     </header>
     <main>
-        <div id="open-filters">
-            >
-        </div>
+        <!--<div id="open-filters">-->
+            <!--&gt;-->
+        <!--</div>-->
         <div id="filters-section">
             <div class="filters">
-                <h3 align="center">Filters</h3>
-                <div class="filter">
+                <div class="filter-section filters-header">
+                    Filters
+                </div>
+                <div class="filter-section">
                     <div class="filter-name">
                         Average Rating
-                        <span class="filter-caret" data-filter-caret-id="1">
-                            +
-                        </span>
                     </div>
-                    <div class="filter-values " data-filter-binding-id="1"></div>
+                    <div id="rating-filter" class="filter-values" data-filter-name="rating">
+
+                    </div>
+                </div>
+                <hr>
+                <div class="filter-section" data-filter data-filter-name="lang">
+                    <div class="filter-name">
+                        Language
+                    </div>
+                    <div class="filter-values">
+                        <div class="form-check">
+                            <input id="en" type="checkbox" data-filter-binding="lang"
+                                   class="form-check-input"/>
+                            <label for="en">English</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="ru" type="checkbox" class="form-check-input"
+                                   data-filter-binding="lang"/>
+                            <label for="ru">Russian</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="ua" type="checkbox" class="form-check-input"
+                                   data-filter-binding="lang"/>
+                            <label for="ua">Ukrainian</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="filter-section">
+                    <div class="filter-name">
+                        Authors
+                    </div>
+                </div>
+                <hr>
+                <div class="filter-section">
+                    <div class="filter-name">
+                        Subjects
+                    </div>
+                </div>
+                <div id="apply-filters">
+                    Apply
                 </div>
             </div>
         </div>
         <div id="results">
-            <div id="found-books" ng-controller="BooksController">
+            <div id="order-by-header">
+                <span class="order-by-text">Order By</span>
+                <div class="select-wrapper">
+                    <select class="form-control small-select" id="order-by-select">
+                        <option value="none">none</option>
+                        <option value="title">title</option>
+                        <option value="rating">rating</option>
+                    </select>
+                </div>
+                <span class="order-by-text">
+                    Sort
+                </span>
+                <div class="select-wrapper">
+                    <select name="" class="form-control small-select" id="sort-order-select">
+                        <option value="none">none</option>
+                        <option value="DESC">DESC</option>
+                        <option value="ASC">ASC</option>
+                    </select>
+                </div>
+            </div>
+            <div id="found-books">
                 <ul class="items">
                     <li class="item item-thumbnail-wrapper" ng-repeat="book in books">
                         <div class="item-thumbnail">
@@ -84,11 +143,14 @@
                     </li>
                 </ul>
             </div>
+            <div class="page-navigation">
+                <div class="navigation-control" ng-click="getPrevious()"><< Previous</div>
+                <div class="navigation-control" ng-click="getNext()"> Next >></div>
+            </div>
         </div>
     </main>
 </body>
 <script src="../js/angular.min.js" th:src="@{/js/angular.min.js}"></script>
 <script src="../js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../js/main-page.js" th:src="@{/js/main-page.js}"></script>
-<!--<script src="../js/sample-data.js"></script>-->
 </html>

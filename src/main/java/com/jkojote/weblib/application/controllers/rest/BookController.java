@@ -10,10 +10,7 @@ import com.jkojote.weblib.application.utils.ViewFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -48,6 +45,7 @@ public class BookController {
     }
 
     @GetMapping("")
+    @CrossOrigin
     public ResponseEntity<String> getAll(HttpServletRequest req) {
         try {
             String queryString = req.getQueryString();
@@ -64,6 +62,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @CrossOrigin
     public ResponseEntity<String> getById(@PathVariable("id") long id) {
         List<BookView> bookViews = bookViewSelector.select(view -> view.getId() == id);
         if (bookViews.size() == 0)

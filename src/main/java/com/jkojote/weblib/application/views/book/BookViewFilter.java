@@ -72,7 +72,7 @@ class BookViewFilter implements ViewFilter<BookView> {
                 if (conditionChain == null)
                     conditionChain = sqlClauseBuilder.where(BookView.LANGUAGE).like(lang);
                 else
-                    conditionChain.and(BookView.LANGUAGE).like(lang);
+                    conditionChain.or(BookView.LANGUAGE).like(lang);
             }
         }
         return conditionChain;
@@ -94,7 +94,6 @@ class BookViewFilter implements ViewFilter<BookView> {
             String orderBy;
             SortOrder sortOrder;
             switch (order[0]) {
-                case "lang" : orderBy = BookView.LANGUAGE; break;
                 case "rating" : orderBy = BookView.AVG_RATING; break;
                 case "title" : orderBy = BookView.TITLE; break;
                 default: throw new MalformedQueryStringException("inappropriate parameter for ordering");
