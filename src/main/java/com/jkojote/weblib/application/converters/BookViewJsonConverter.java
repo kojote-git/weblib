@@ -28,6 +28,7 @@ public class BookViewJsonConverter implements JsonConverter<BookView> {
         json.add("id", new JsonPrimitive(view.getId()));
         json.add("title", new JsonPrimitive(view.getTitle()));
         json.add("averageRating", new JsonPrimitive(view.getAverageRating()));
+        json.add("lang", new JsonPrimitive(view.getLanguageCode().toString()));
         json.add("url", new JsonPrimitive(view.getUrl()));
         json.add("imageUrl", new JsonPrimitive(view.getImageUrl()));
         json.add("authors", authors);

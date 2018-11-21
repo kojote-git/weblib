@@ -1,4 +1,4 @@
-package com.jkojote.weblib.utils;
+package com.jkojote.weblib.application.utils;
 
 import com.jkojote.library.persistence.MapCache;
 

@@ -8,9 +8,17 @@ import java.util.List;
 
 public class BookView implements ViewObject {
 
+    public static final String AVG_RATING = "rating.average";
+
+    public static final String TITLE = "book.title";
+
+    public static final String LANGUAGE = "book.lang";
+
     private long id;
 
     private String imageUrl;
+
+    private String langCode;
 
     private String url;
 
@@ -26,6 +34,10 @@ public class BookView implements ViewObject {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getLanguageCode() {
+        return langCode;
     }
 
     public String getUrl() {
@@ -53,6 +65,8 @@ public class BookView implements ViewObject {
         private long id;
 
         private String title;
+
+        private String lang;
 
         private float averageRating;
 
@@ -96,6 +110,11 @@ public class BookView implements ViewObject {
             return this;
         }
 
+        public BookViewBuilder withLangCode(String langCode) {
+            this.lang = langCode;
+            return this;
+        }
+
         public BookView build() {
             BookView bookView = new BookView();
             bookView.averageRating = this.averageRating;
@@ -104,6 +123,7 @@ public class BookView implements ViewObject {
             bookView.id = this.id;
             bookView.title = this.title;
             bookView.url = this.url;
+            bookView.langCode = lang;
             return bookView;
         }
     }

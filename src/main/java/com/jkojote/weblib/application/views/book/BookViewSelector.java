@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component("bookViewSelector")
-public class BookViewSelector implements PageableViewSelector<BookView> {
+class BookViewSelector implements PageableViewSelector<BookView> {
 
     private static final String SELECT_ALL;
 
@@ -41,7 +41,7 @@ public class BookViewSelector implements PageableViewSelector<BookView> {
                 .append("LEFT JOIN (")
                   .append("SELECT bookId, AVG(rating) AS average FROM Rating GROUP BY bookId")
                 .append(") AS rating ")
-                  .append("ON rating.bookId = book.id")
+                  .append("ON rating.bookId = book.id ")
                 .toString();
     }
 
@@ -77,7 +77,9 @@ public class BookViewSelector implements PageableViewSelector<BookView> {
 
     @Override
     public List<BookView> findAll(int page, int pageSize) {
-        return null;
+        int offset = (page - 1) * pageSize;
+        return jdbcTemplate.query(SELECT_ALL + " LIMIT ? OFFSET ?", bookViewMapper,
+                pageSize, offset);
     }
 
     @Override
@@ -87,9 +89,9 @@ public class BookViewSelector implements PageableViewSelector<BookView> {
         int offset = (page - 1) * size;
         SqlClause clause = sqlPageSpecification.predicate();
         String query = new StringBuilder(SELECT_ALL)
-                .append(clause.asString()).append(" OFFSET ? LIMIT ?")
+                .append(clause.asString()).append(" LIMIT ? OFFSET ?")
                 .toString();
-        return jdbcTemplate.query(query, bookViewMapper, offset, size);
+        return jdbcTemplate.query(query, bookViewMapper, size, offset);
     }
 
     @Override

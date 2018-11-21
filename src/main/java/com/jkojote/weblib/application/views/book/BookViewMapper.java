@@ -3,7 +3,7 @@ package com.jkojote.weblib.application.views.book;
 import com.jkojote.library.persistence.MapCache;
 import com.jkojote.weblib.application.Shared;
 import com.jkojote.weblib.application.views.author.AuthorView;
-import com.jkojote.weblib.utils.MapCacheImpl;
+import com.jkojote.weblib.application.utils.MapCacheImpl;
 import com.neovisionaries.i18n.LanguageCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 
 @Component("bookViewMapper")
-public class BookViewMapper implements RowMapper<BookView> {
+class BookViewMapper implements RowMapper<BookView> {
 
     private static final String QUERY_AUTHOR_VIEWS =
         "SELECT " +
@@ -68,8 +68,10 @@ public class BookViewMapper implements RowMapper<BookView> {
         }
         average = average == 0 ? -1 : average;
         return BookView.BookViewBuilder.aBookView()
+                .withId(bookId)
                 .withAverageRating(average)
                 .withAuthors(authors)
+                .withLangCode(lang.toString())
                 .withImageUrl(coverUrl)
                 .withUrl(Shared.HOST + "books/" + bookId)
                 .withTitle(title)
