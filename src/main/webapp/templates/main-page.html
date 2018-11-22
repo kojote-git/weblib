@@ -96,12 +96,27 @@
                             </label>
                         </div>
                     </div>
-                    <div id="show-more-authors">Show More</div>
+                    <div id="show-more-authors" class="show-more">Show More</div>
                 </div>
                 <hr>
-                <div class="filter-section">
+                <div class="filter-section" data-filter data-filter-name="subject">
                     <div class="filter-name">
                         Subjects
+                    </div>
+                    <div class="filter-values">
+                        <div class="form-check" ng-repeat="subject in subjects">
+                            <input type="checkbox" class="form-check-input"
+                                   id="{{getSubjectId(subject.id)}}"
+                                   data-filter-binding="subject"
+                                   data-filter-value="{{subject.value}}"/>
+                            <label for="{{getSubjectId(subject.id)}}"
+                                   class="filter-checkbox-label">
+                                {{subject.value}}
+                            </label>
+                        </div>
+                    </div>
+                    <div id="show-more-subjects" class="show-more">
+                        Show More
                     </div>
                 </div>
                 <div id="apply-filters">
@@ -172,5 +187,6 @@
 </body>
 <script src="../js/angular.min.js" th:src="@{/js/angular.min.js}"></script>
 <script src="../js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
+<script src="../js/util.js" th:src="@{/js/util.js}"></script>
 <script src="../js/main-page.js" th:src="@{/js/main-page.js}"></script>
 </html>

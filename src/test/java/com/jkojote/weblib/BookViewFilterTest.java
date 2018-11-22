@@ -48,6 +48,7 @@ public class BookViewFilterTest {
     public void findAll_2() {
         String select1 = "subject=Programming,Fantasy,Classic,Dystopian&lang=ru&author=23";
         printAll(viewFilter.findAll(select1));
+
     }
 
     private void select4Pages() {

@@ -4,7 +4,8 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
     const orderBySelect = document.getElementById("order-by-select"),
           sortOrderSelect = document.getElementById("sort-order-select"),
           applyFilters = document.getElementById("apply-filters"),
-          showMoreAuthors = document.getElementById("show-more-authors");
+          showMoreAuthors = document.getElementById("show-more-authors"),
+          showMoreSubjects = document.getElementById("show-more-subjects");
     $scope.currentPage = 1;
     $scope.pageSize = 8;
     $scope.getClassNameForRating = function (rating) {
@@ -48,7 +49,10 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
         });
     };
     $scope.getAuthorId = function(id) {
-        return "author - " + id;
+        return "author-" + id;
+    };
+    $scope.getSubjectId = function(id) {
+        return "subject-" + id;
     };
     applyFilters.addEventListener("click", function (e) {
         let filters = document.querySelectorAll("[data-filter]");
@@ -79,6 +83,9 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
         }
         $scope.currentPage = 1;
         $scope.loadBooks($scope.currentPage, $scope.pageSize, $scope.sort, $scope.filters);
+        let a = document.createElement("a");
+        a.href = "#";
+        a.click();
     });
     orderBySelect.addEventListener("change", function (e) {
         if (orderBySelect.value === "none") {
@@ -114,7 +121,7 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
             url;
         if (target.getAttribute("shown") === "true") {
             target.innerText = "Show More";
-            url = URL + "rest/authors?page=1&pageSize=8";
+            url = URL + "rest/authors?page=1&pageSize=5";
             target.setAttribute("shown", "false");
         } else {
             target.setAttribute("shown", "true");
@@ -126,6 +133,24 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
             .then(function (response) {
                 $scope.authors = response.data.authors;
             });
+    });
+    showMoreSubjects.addEventListener("click", function (e) {
+       let target = e.target,
+           url;
+       if (target.getAttribute("shown") === true) {
+           target.innerText = "Show More";
+           url = URL + "rest/subjects?page=1&pageSize=5";
+           target.setAttribute("shown", "false");
+       } else {
+           target.setAttribute("shown", "true");
+           target.inner = "Hide";
+           url = URL + "rest/subjects";
+       }
+       $http
+           .get(url)
+           .then(function (response) {
+               $scope.authors = response.data.subjects;
+           })
     });
     function buildUrl(page, pageSize, sort, filters) {
         let res = URL + "rest/books?page=" + page + "&pageSize=" + pageSize;
@@ -153,9 +178,14 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
     // --------------------------- INITIALIZING ---------------------------------
 
     $http
-        .get(URL + "rest/authors?page=1&pageSize=8")
+        .get(URL + "rest/authors")
         .then(function (response) {
-            $scope.authors = response.data.authors;
+            $scope.authors = shuffle(response.data.authors).slice(0, 5);
+        });
+    $http
+        .get(URL + "rest/subjects")
+        .then(function (response) {
+           $scope.subjects = shuffle(response.data.subjects).slice(0, 5);
         });
     $scope.loadBooks($scope.currentPage, $scope.pageSize);
     function addEventListener(array, event, callback) {

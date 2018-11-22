@@ -88,6 +88,14 @@ main {
     border: 1px solid rgb(240, 240, 240);
 }
 
+.show-more {
+    text-align: center;
+}
+
+.show-more:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 
 .small-select {
     max-width: 150px;

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 class SubjectViewSelector implements PageableViewSelector<SubjectView> {
 
     private static final String SELECT =
-        "SELECT subject.id, subject.subject FROM subject ";
+        "SELECT subject.id, subject.subject FROM Subject subject";
 
     private JdbcTemplate jdbcTemplate;
 
