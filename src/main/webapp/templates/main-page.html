@@ -56,27 +56,47 @@
                     </div>
                     <div class="filter-values">
                         <div class="form-check">
-                            <input id="en" type="checkbox" data-filter-binding="lang"
+                            <input id="en" type="checkbox"
+                                   data-filter-value="en"
+                                   data-filter-binding="lang"
                                    class="form-check-input"/>
-                            <label for="en">English</label>
+                            <label  class="filter-checkbox-label"
+                                    for="en">English</label>
                         </div>
                         <div class="form-check">
                             <input id="ru" type="checkbox" class="form-check-input"
+                                   data-filter-value="ru"
                                    data-filter-binding="lang"/>
-                            <label for="ru">Russian</label>
+                            <label class="filter-checkbox-label"
+                                    for="ru">Russian</label>
                         </div>
                         <div class="form-check">
                             <input id="ua" type="checkbox" class="form-check-input"
+                                   data-filter-value="ua"
                                    data-filter-binding="lang"/>
-                            <label for="ua">Ukrainian</label>
+                            <label  class="filter-checkbox-label"
+                                    for="ua">Ukrainian</label>
                         </div>
                     </div>
                 </div>
                 <hr>
-                <div class="filter-section">
+                <div class="filter-section" data-filter data-filter-name="author">
                     <div class="filter-name">
                         Authors
                     </div>
+                    <div class="filter-values">
+                        <div class="form-check" ng-repeat="author in authors">
+                            <input id="{{getAuthorId(author.id)}}"
+                                   type="checkbox" class="form-check-input"
+                                   data-filter-value="{{author.id}}"
+                                   data-filter-binding="author"/>
+                            <label class="filter-checkbox-label"
+                                   for="{{getAuthorId(author.id)}}">
+                                {{author.firstName}} {{author.lastName}}
+                            </label>
+                        </div>
+                    </div>
+                    <div id="show-more-authors">Show More</div>
                 </div>
                 <hr>
                 <div class="filter-section">

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.jkojote.library.domain.shared.domain.ViewSelector;
 import com.jkojote.weblib.application.JsonConverter;
 import com.jkojote.weblib.application.utils.MalformedQueryStringException;
-import com.jkojote.weblib.application.views.book.BookView;
+import com.jkojote.weblib.application.views.book.simple.BookView;
 import com.jkojote.weblib.application.utils.ViewFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

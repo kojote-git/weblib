@@ -1,4 +1,4 @@
-package com.jkojote.weblib.application.views.book;
+package com.jkojote.weblib.application.views.book.simple;
 
 import com.jkojote.library.clauses.*;
 import com.jkojote.library.domain.shared.SqlPageSpecificationImpl;
@@ -6,13 +6,17 @@ import com.jkojote.library.domain.shared.domain.PageableViewSelector;
 import com.jkojote.library.domain.shared.domain.SqlPageSpecification;
 import com.jkojote.weblib.application.utils.MalformedQueryStringException;
 import com.jkojote.weblib.application.utils.QueryStringParser;
+import com.jkojote.weblib.application.utils.EmptySqlClause;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import com.jkojote.weblib.application.utils.ViewFilter;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Component("bookViewFilter")
 class BookViewFilter implements ViewFilter<BookView> {
@@ -23,14 +27,19 @@ class BookViewFilter implements ViewFilter<BookView> {
 
     private SqlClauseBuilder sqlClauseBuilder;
 
+
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     @Autowired
     public BookViewFilter(QueryStringParser parser,
                           @Qualifier("bookViewSelector")
                           PageableViewSelector<BookView> bookViewSelector,
-                          SqlClauseBuilder sqlClauseBuilder) {
+                          SqlClauseBuilder sqlClauseBuilder,
+                          NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.parser = parser;
         this.bookViewSelector = bookViewSelector;
         this.sqlClauseBuilder = sqlClauseBuilder;
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
@@ -41,12 +50,61 @@ class BookViewFilter implements ViewFilter<BookView> {
         List<BookView> views;
         SqlConditionChain conditionChain = getConditionChain(params);
         SqlClause sqlClause = getClause(params, conditionChain);
-        SqlPageSpecification pageSpecification = getPageSpecification(params, sqlClause);
-        if (pageSpecification == null)
-            views = bookViewSelector.select(sqlClause);
-        else
-            views = bookViewSelector.findAll(pageSpecification);
+        if (!params.containsKey("author") && !params.containsKey("subject")) {
+            SqlPageSpecification pageSpecification = getPageSpecification(params, sqlClause);
+            if (pageSpecification == null) {
+                views = bookViewSelector.select(sqlClause);
+                return views;
+            }
+            else
+                return bookViewSelector.findAll(pageSpecification);
+        }
+        views = bookViewSelector.select(sqlClause);
+        if (params.containsKey("author")) {
+            String[] authorIds = params.get("author").split(",");
+            Set<Long> authors = new TreeSet<>();
+            for (String author : authorIds) {
+                authors.add(parseLong(author, "author's id must be valid integer"));
+            }
+            views = views.stream()
+                    .filter(view -> view.getAuthors().stream()
+                            .anyMatch(authorView ->
+                                    authors.contains(authorView.getId()))
+                    ).collect(Collectors.toList());
+        }
+        if (params.containsKey("subject")) {
+            views = views
+                    .stream()
+                    .filter(getPredicateForSubjects(params))
+                    .collect(Collectors.toList());
+        }
+        if (params.containsKey("page")) {
+            SqlPageSpecification pageSpecification = getPageSpecification(params, EmptySqlClause.getClause());
+            int page = pageSpecification.page();
+            int pageSize = pageSpecification.pageSize();
+            int offset = (page - 1) * pageSize;
+            if (offset > views.size())
+                return Collections.emptyList();
+            if (offset + pageSize > views.size())
+                pageSize = views.size() - offset;
+            return views.subList(offset, offset + pageSize);
+        }
         return views;
+    }
+
+    private Predicate<BookView> getPredicateForSubjects(Map<String, String> params) {
+        String[] subjects = params.get("subject").split(",");
+        Set<String> subjectsSet = new TreeSet<>();
+        Collections.addAll(subjectsSet, subjects);
+        String SELECT =
+            "SELECT DISTINCT book.id AS book_id FROM Book book " +
+                "INNER JOIN WorkSubject subjects ON book.workId = subjects.workId "+
+                "INNER JOIN Subject subject ON subject.id = subjects.subjectId " +
+            "WHERE subject.subject IN (:subjects)";
+        List<Long> ids = namedParameterJdbcTemplate.query(SELECT,
+                Collections.singletonMap("subjects", subjectsSet),
+                (rs, rn) -> rs.getLong("book_id"));
+        return (BookView bookView) -> ids.contains(bookView.getId());
     }
 
     private SqlPageSpecification getPageSpecification(Map<String, String> params, SqlClause clause) {
@@ -81,6 +139,14 @@ class BookViewFilter implements ViewFilter<BookView> {
     private int parseInt(String str, String message) {
         try {
             return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            throw new MalformedQueryStringException(message);
+        }
+    }
+
+    private long parseLong(String str, String message) {
+        try {
+            return Long.parseLong(str);
         } catch (NumberFormatException e) {
             throw new MalformedQueryStringException(message);
         }

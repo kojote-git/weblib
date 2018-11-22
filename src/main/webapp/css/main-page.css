@@ -53,6 +53,15 @@ main {
     padding-right: 5px;
 }
 
+#show-more-authors {
+    text-align: center;
+}
+
+#show-more-authors:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #apply-filters {
     text-align: center;
     font-size: 20px;
@@ -86,6 +95,15 @@ main {
     padding: 2px;
     border: 1px solid rgb(230, 230, 230);
     border-radius: 2px;
+}
+
+.filter-checkbox-label:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.selected-filter {
+    text-decoration: underline;
 }
 
 .order-by-text {

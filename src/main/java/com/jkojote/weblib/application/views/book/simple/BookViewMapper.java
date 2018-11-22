@@ -1,4 +1,4 @@
-package com.jkojote.weblib.application.views.book;
+package com.jkojote.weblib.application.views.book.simple;
 
 import com.jkojote.library.persistence.MapCache;
 import com.jkojote.weblib.application.Shared;

@@ -1,4 +1,4 @@
-package com.jkojote.weblib.application.views.book;
+package com.jkojote.weblib.application.utils;
 
 import com.jkojote.library.clauses.SqlClause;
 

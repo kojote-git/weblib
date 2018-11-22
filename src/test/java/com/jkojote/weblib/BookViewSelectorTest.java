@@ -1,13 +1,12 @@
 package com.jkojote.weblib;
 
-import com.jkojote.library.clauses.SortOrder;
 import com.jkojote.library.clauses.SqlClause;
 import com.jkojote.library.clauses.SqlClauseBuilder;
 import com.jkojote.library.domain.shared.SqlPageSpecificationImpl;
 import com.jkojote.library.domain.shared.domain.PageableViewSelector;
 import com.jkojote.library.domain.shared.domain.SqlPageSpecification;
 import com.jkojote.weblib.application.JsonConverter;
-import com.jkojote.weblib.application.views.book.BookView;
+import com.jkojote.weblib.application.views.book.simple.BookView;
 import com.jkojote.weblib.config.MvcConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
-
-import static com.jkojote.weblib.application.views.book.BookView.LANGUAGE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = MvcConfig.class)

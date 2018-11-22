@@ -1,6 +1,8 @@
 package com.jkojote.weblib.application.views.author;
 
-public class AuthorView {
+import com.jkojote.library.domain.shared.domain.ViewObject;
+
+public class AuthorView implements ViewObject {
 
     private String url;
 

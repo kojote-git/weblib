@@ -2,7 +2,7 @@ package com.jkojote.weblib;
 
 import com.jkojote.weblib.application.JsonConverter;
 import com.jkojote.weblib.application.utils.ViewFilter;
-import com.jkojote.weblib.application.views.book.BookView;
+import com.jkojote.weblib.application.views.book.simple.BookView;
 import com.jkojote.weblib.config.MvcConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,6 +42,12 @@ public class BookViewFilterTest {
     @Test
     public void findAll() {
 //        actionRunner.report(1000, this::select4Pages);
+    }
+
+    @Test
+    public void findAll_2() {
+        String select1 = "subject=Programming,Fantasy,Classic,Dystopian&lang=ru&author=23";
+        printAll(viewFilter.findAll(select1));
     }
 
     private void select4Pages() {
