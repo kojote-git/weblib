@@ -5,7 +5,8 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
           sortOrderSelect = document.getElementById("sort-order-select"),
           applyFilters = document.getElementById("apply-filters"),
           showMoreAuthors = document.getElementById("show-more-authors"),
-          showMoreSubjects = document.getElementById("show-more-subjects");
+          showMoreSubjects = document.getElementById("show-more-subjects"),
+          search = document.getElementById("search");
     $scope.currentPage = 1;
     $scope.pageSize = 8;
     $scope.getClassNameForRating = function (rating) {
@@ -137,7 +138,7 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
     showMoreSubjects.addEventListener("click", function (e) {
        let target = e.target,
            url;
-       if (target.getAttribute("shown") === true) {
+       if (target.getAttribute("shown") === "true") {
            target.innerText = "Show More";
            url = URL + "rest/subjects?page=1&pageSize=5";
            target.setAttribute("shown", "false");
@@ -149,8 +150,38 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
        $http
            .get(url)
            .then(function (response) {
-               $scope.authors = response.data.subjects;
+               $scope.subjects = response.data.subjects;
            })
+    });
+    search.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+            if (!$scope.filters) {
+                $scope.filters = [];
+            }
+            if (e.target.value.length === 0) {
+                let i = firstIndexOf($scope.filters, function (filter) {
+                    return filter.name === "title";
+                });
+                if (i === -1)
+                    return;
+                $scope.filters.splice(i, 1);
+            }
+            let idx = firstIndexOf($scope.filters, function (filter) {
+               return filter.name === "title";
+            });
+            if (idx == -1) {
+                $scope.filters.push({
+                    name: "title",
+                    values: [
+                        e.target.value
+                    ]
+                });
+            } else {
+                $scope.filters[idx].values = [e.target.value];
+            }
+            $scope.currentPage = 1;
+            $scope.loadBooks($scope.currentPage, $scope.pageSize, $scope.sort, $scope.filters);
+        }
     });
     function buildUrl(page, pageSize, sort, filters) {
         let res = URL + "rest/books?page=" + page + "&pageSize=" + pageSize;

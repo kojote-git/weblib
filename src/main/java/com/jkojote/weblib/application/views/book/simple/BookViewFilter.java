@@ -16,6 +16,7 @@ import com.jkojote.weblib.application.utils.ViewFilter;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Component("bookViewFilter")
@@ -50,7 +51,8 @@ class BookViewFilter implements ViewFilter<BookView> {
         List<BookView> views;
         SqlConditionChain conditionChain = getConditionChain(params);
         SqlClause sqlClause = getClause(params, conditionChain);
-        if (!params.containsKey("author") && !params.containsKey("subject")) {
+        if (!params.containsKey("author") && !params.containsKey("subject") &&
+            !params.containsKey("title")) {
             SqlPageSpecification pageSpecification = getPageSpecification(params, sqlClause);
             if (pageSpecification == null) {
                 views = bookViewSelector.select(sqlClause);
@@ -60,24 +62,26 @@ class BookViewFilter implements ViewFilter<BookView> {
                 return bookViewSelector.findAll(pageSpecification);
         }
         views = bookViewSelector.select(sqlClause);
+        Predicate<BookView> predicate = b -> true;
         if (params.containsKey("author")) {
             String[] authorIds = params.get("author").split(",");
             Set<Long> authors = new TreeSet<>();
             for (String author : authorIds) {
                 authors.add(parseLong(author, "author's id must be valid integer"));
             }
-            views = views.stream()
-                    .filter(view -> view.getAuthors().stream()
-                            .anyMatch(authorView ->
-                                    authors.contains(authorView.getId()))
-                    ).collect(Collectors.toList());
+            predicate = predicate.or(view -> view.getAuthors().stream()
+                            .anyMatch(authorView -> authors.contains(authorView.getId())));
         }
         if (params.containsKey("subject")) {
-            views = views
-                    .stream()
-                    .filter(getPredicateForSubjects(params))
-                    .collect(Collectors.toList());
+            predicate = predicate.and(getPredicateForSubjects(params));
         }
+        if (params.containsKey("title")) {
+            String title = params.get("title");
+            Pattern pattern = Pattern.compile(title,
+                Pattern.UNICODE_CHARACTER_CLASS | Pattern.CASE_INSENSITIVE);
+            predicate = predicate.and(view -> pattern.matcher(view.getTitle()).find());
+        }
+        views = views.stream().filter(predicate).collect(Collectors.toList());
         if (params.containsKey("page")) {
             SqlPageSpecification pageSpecification = getPageSpecification(params, EmptySqlClause.getClause());
             int page = pageSpecification.page();

@@ -47,6 +47,13 @@ public class BookViewFilterTest {
     @Test
     public void findAll_2() {
         String select1 = "subject=Programming,Fantasy,Classic,Dystopian&lang=ru&author=23";
+        System.out.println(select1 + "\n");
+        printAll(viewFilter.findAll(select1));
+        select1 = "title=The&page=1&pageSize=2";
+        System.out.println(select1 + "\n");
+        printAll(viewFilter.findAll(select1));
+        select1 = "page=1&pageSize=8&title=%D1%81%D0%B5%D1%80%D0%B4%D1%86%D0%B5";
+        System.out.println(select1 + "\n");
         printAll(viewFilter.findAll(select1));
 
     }
