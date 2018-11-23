@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../css/bootstrap-4.1.3/css/bootstrap.min.css"
+            th:href="@{/css/bootstrap-4.1.3/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="../css/authorization.css" th:href="@{/css/authorization.css}">
+    <title>Document</title>
+</head>
+<body>
+<main class="container">
+    <div class="form">
+        <div class="form-section form-header">
+            Authorization
+        </div>
+        <div class="form-section">
+            <div class="form-group">
+                <label for="email">email</label>
+                <input id="email" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-section">
+            <div class="form-group">
+                <label for="password">password</label>
+                <input id="password" type="password" class="form-control">
+            </div>
+        </div>
+        <div class="form-section submit">
+            <div id="submit" class="btn btn-primary">Submit</div>
+        </div>
+    </div>
+</main>
+<script th:src="@{/js/shared.js}" src="../js/shared.js"></script>
+<script th:src="@{/js/authorization.js}" src="../js/authorization.js"></script>
+</body>
+</html>

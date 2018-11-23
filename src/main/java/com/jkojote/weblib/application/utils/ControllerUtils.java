@@ -8,6 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Optional;
+
 public final class ControllerUtils {
 
     private ControllerUtils() { throw new AssertionError(); }
@@ -22,6 +27,15 @@ public final class ControllerUtils {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("not-found");
         return modelAndView;
+    }
+
+    public static Optional<String> readCookie(String name, HttpServletRequest request) {
+        if (request.getCookies() == null)
+            return Optional.empty();
+        return Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals(name))
+                .map(Cookie::getValue)
+                .findAny();
     }
 
     public static ResponseEntity<String> errorResponse(String message, HttpStatus status) {

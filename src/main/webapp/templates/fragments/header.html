@@ -9,11 +9,15 @@
 </head>
 <body>
 <header th:fragment="header">
-    <div class="pre-search-group">
+    <div class="pre-search-group" th:if="${email == null}">
         <div class="profile-actions">
-            <a href="#" class="profile-action">Sign In</a> |
-            <a href="#" class="profile-action">Sign Up</a>
+            <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
+            <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
         </div>
+    </div>
+    <div class="pre-search-group" th:if="${email != null}">
+        Welcome, <span class="font-weight-bold" th:text="${email}"></span>
+        
     </div>
     <div>
         <div class="search-group">

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -11,11 +11,11 @@
     <link rel="stylesheet" href="../css/main-page.css" th:href="@{/css/main-page.css}"/>
 </head>
 <body ng-app="main-page" ng-controller="BooksController">
-    <header>
+    <header th:replace="fragments/header :: header">
         <div class="pre-search-group">
             <div class="profile-actions">
-                <a href="#" class="profile-action">Sign In</a> |
-                <a href="#" class="profile-action">Sign Up</a>
+                <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
+                <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
             </div>
         </div>
         <div>
