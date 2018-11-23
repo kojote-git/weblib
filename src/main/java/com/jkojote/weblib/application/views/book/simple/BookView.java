@@ -14,6 +14,8 @@ public class BookView implements ViewObject {
 
     public static final String LANGUAGE = "book.lang";
 
+    public static final String ID = "book.id";
+
     private long id;
 
     private String imageUrl;
@@ -22,11 +24,17 @@ public class BookView implements ViewObject {
 
     private String url;
 
+    private long workId;
+
     private String title;
 
     private float averageRating;
 
     private List<AuthorView> authors;
+
+    public long getWorkId() {
+        return workId;
+    }
 
     public long getId() {
         return id;
@@ -63,6 +71,8 @@ public class BookView implements ViewObject {
         private String url;
 
         private long id;
+
+        private long workId;
 
         private String title;
 
@@ -115,6 +125,11 @@ public class BookView implements ViewObject {
             return this;
         }
 
+        public BookViewBuilder withWorkId(long id) {
+            this.workId = id;
+            return this;
+        }
+
         public BookView build() {
             BookView bookView = new BookView();
             bookView.averageRating = this.averageRating;
@@ -124,6 +139,7 @@ public class BookView implements ViewObject {
             bookView.title = this.title;
             bookView.url = this.url;
             bookView.langCode = lang;
+            bookView.workId = this.workId;
             return bookView;
         }
     }

@@ -144,7 +144,7 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
            target.setAttribute("shown", "false");
        } else {
            target.setAttribute("shown", "true");
-           target.inner = "Hide";
+           target.innerText = "Hide";
            url = URL + "rest/subjects";
        }
        $http

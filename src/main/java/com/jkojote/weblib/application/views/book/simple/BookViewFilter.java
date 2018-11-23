@@ -69,7 +69,7 @@ class BookViewFilter implements ViewFilter<BookView> {
             for (String author : authorIds) {
                 authors.add(parseLong(author, "author's id must be valid integer"));
             }
-            predicate = predicate.or(view -> view.getAuthors().stream()
+            predicate = predicate.and(view -> view.getAuthors().stream()
                             .anyMatch(authorView -> authors.contains(authorView.getId())));
         }
         if (params.containsKey("subject")) {

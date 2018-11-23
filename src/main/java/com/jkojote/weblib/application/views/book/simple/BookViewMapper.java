@@ -69,6 +69,7 @@ class BookViewMapper implements RowMapper<BookView> {
         average = average == 0 ? -1 : average;
         return BookView.BookViewBuilder.aBookView()
                 .withId(bookId)
+                .withWorkId(workId)
                 .withAverageRating(average)
                 .withAuthors(authors)
                 .withLangCode(lang.toString())
