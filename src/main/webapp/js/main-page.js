@@ -1,4 +1,3 @@
-const URL = "http://localhost:8080/weblib/";
 const mainPage = angular.module("main-page", []);
 mainPage.controller("BooksController", function BooksController($http, $scope) {
     const orderBySelect = document.getElementById("order-by-select"),

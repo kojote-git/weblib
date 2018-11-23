@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.ModelAndView;
 
 public final class ControllerUtils {
 
@@ -15,6 +16,12 @@ public final class ControllerUtils {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
         return headers;
+    }
+
+    public static ModelAndView getNotFound() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("not-found");
+        return modelAndView;
     }
 
     public static ResponseEntity<String> errorResponse(String message, HttpStatus status) {

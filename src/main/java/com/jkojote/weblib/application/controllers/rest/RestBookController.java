@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 
 @RestController
 @RequestMapping("/rest/books")
-public class BookController {
+public class RestBookController {
 
     private JsonConverter<BookView> bookViewJsonConverter;
 
@@ -32,7 +32,7 @@ public class BookController {
     private ViewFilter<BookView> bookViewFilter;
 
     @Autowired
-    public BookController(
+    public RestBookController(
             @Qualifier("bookViewJsonConverter")
             JsonConverter<BookView> bookViewJsonConverter,
             @Qualifier("bookViewFilter")

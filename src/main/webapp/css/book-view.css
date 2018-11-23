@@ -1,0 +1,26 @@
+main {
+    margin-top: 50px;
+}
+
+img.book-cover {
+    width: 100%;
+    height: 100%;
+}
+
+#download-list {
+    list-style: none;
+    padding: 5px;
+}
+
+.download-link {
+    color: rgb(75, 75, 75);
+}
+
+.download-link:hover {
+    color: rgb(75, 75, 75);
+}
+
+.book-cover-wrapper {
+    max-width: 250px;
+    max-height: 367px;
+}
