@@ -11,11 +11,18 @@
     <link rel="stylesheet" href="../../css/common.css">
 </head>
 <body>
-<header th:fragment="header">
-    <div class="pre-search-group">
-        <div class="profile-actions">
-            <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
-            <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
+<header th:fragment="header" class="logged-in-header">
+    <div class="header-grid">
+        <div class="header-info">
+
+        </div>
+        <div class="header-user">
+            <div class="text-center">
+                Welcome, <span class="font-weight-bold" th:text="${email}">user</span>
+            </div>
+            <div class="font-weight-bold text-right" id="logout">
+                Log Out
+            </div>
         </div>
     </div>
     <div>

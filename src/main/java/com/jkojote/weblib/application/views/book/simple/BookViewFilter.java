@@ -78,6 +78,7 @@ class BookViewFilter implements ViewFilter<BookView> {
         if (params.containsKey("title")) {
             String title = params.get("title");
             Pattern pattern = Pattern.compile(title,
+                Pattern.UNICODE_CASE |
                 Pattern.UNICODE_CHARACTER_CLASS | Pattern.CASE_INSENSITIVE);
             predicate = predicate.and(view -> pattern.matcher(view.getTitle()).find());
         }

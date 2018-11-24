@@ -12,7 +12,14 @@
     <link rel="stylesheet" href="../css/book-view.css" th:href="@{/css/book-view.css}">
 </head>
 <body>
-<header></header>
+<th:block th:switch="${email == null}">
+    <th:block th:case="true">
+        <header th:replace="fragments/header-no-search :: header"></header>
+    </th:block>
+    <th:block th:case="false">
+        <header th:replace="fragments/logged-in"></header>
+    </th:block>
+</th:block>
 <main class="container" ng-app="bookPage" ng-controller="BookController">
     <div class="row">
         <div class="col-xs-12 col-md-3">

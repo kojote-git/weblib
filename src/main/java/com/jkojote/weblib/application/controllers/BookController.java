@@ -3,6 +3,7 @@ package com.jkojote.weblib.application.controllers;
 import com.jkojote.library.clauses.SqlClause;
 import com.jkojote.library.clauses.SqlClauseBuilder;
 import com.jkojote.library.domain.shared.domain.ViewSelector;
+import com.jkojote.weblib.application.Shared;
 import com.jkojote.weblib.application.security.AuthorizationService;
 import com.jkojote.weblib.application.views.book.extended.ExtendedBookView;
 import com.jkojote.weblib.application.views.book.simple.BookView;
@@ -58,6 +59,8 @@ public class BookController {
                 modelAndView.addObject("email", email.get());
             }
         }
+        modelAndView.addObject("authorizationUrl", Shared.HOST + "authorization");
+        modelAndView.addObject("registrationUrl", Shared.HOST + "registration");
         return modelAndView;
     }
 

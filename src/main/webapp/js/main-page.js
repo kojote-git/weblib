@@ -5,7 +5,8 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
           applyFilters = document.getElementById("apply-filters"),
           showMoreAuthors = document.getElementById("show-more-authors"),
           showMoreSubjects = document.getElementById("show-more-subjects"),
-          search = document.getElementById("search");
+          search = document.getElementById("search"),
+          logout = document.getElementById("logout");
     $scope.currentPage = 1;
     $scope.pageSize = 8;
     $scope.getClassNameForRating = function (rating) {
@@ -182,6 +183,18 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
             $scope.loadBooks($scope.currentPage, $scope.pageSize, $scope.sort, $scope.filters);
         }
     });
+    if (logout) {
+        logout.addEventListener("click", function (e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", URL + "rest/readers/logout");
+            xhr.setRequestHeader("Email", getEmail());
+            xhr.setRequestHeader("Access-token", getAccessToken());
+            xhr.addEventListener("load", function (e) {
+                window.open(URL, "_self", false);
+            });
+            xhr.send();
+        });
+    }
     function buildUrl(page, pageSize, sort, filters) {
         let res = URL + "rest/books?page=" + page + "&pageSize=" + pageSize;
         if (sort !== undefined)
@@ -202,7 +215,7 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
                 }
             }
         }
-        return res;
+        return encodeURI(res);
     }
 
     // --------------------------- INITIALIZING ---------------------------------

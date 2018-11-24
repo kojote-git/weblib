@@ -16,3 +16,18 @@ function firstIndexOf(array, predicate) {
     }
     return -1;
 }
+
+function readCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function getEmail() {
+    return readCookie("email");
+}
+
+function getAccessToken() {
+    return readCookie("accessToken");
+}

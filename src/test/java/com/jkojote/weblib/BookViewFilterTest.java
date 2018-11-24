@@ -52,7 +52,7 @@ public class BookViewFilterTest {
         select1 = "title=The&page=1&pageSize=2";
         System.out.println(select1 + "\n");
         printAll(viewFilter.findAll(select1));
-        select1 = "page=1&pageSize=8&title=%D1%81%D0%B5%D1%80%D0%B4%D1%86%D0%B5";
+        select1 = "page=1&pageSize=8&title=%D1%81%D0%BE%D0%B1%D0%B0%D1%87%D1%8C";
         System.out.println(select1 + "\n");
         printAll(viewFilter.findAll(select1));
 

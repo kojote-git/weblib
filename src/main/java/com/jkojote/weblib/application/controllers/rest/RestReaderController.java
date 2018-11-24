@@ -93,7 +93,7 @@ public class RestReaderController {
         }
     }
 
-    @PutMapping("logout")
+    @PostMapping("logout")
     public ResponseEntity<String> logout(HttpServletRequest req, HttpServletResponse resp) {
         String email = req.getHeader("Email");
         String accessToken = req.getHeader("Access-token");

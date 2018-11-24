@@ -33,8 +33,9 @@ public class LibraryController {
         Optional<String> email = readCookie("email", req);
         Optional<String> token = readCookie("accessToken", req);
         if (email.isPresent() && token.isPresent()) {
-            if (authorizationService.checkToken(email.get(), token.get()))
+            if (authorizationService.checkToken(email.get(), token.get())) {
                 modelAndView.addObject("email", email.get());
+            }
         }
         modelAndView.setViewName("main-page");
         modelAndView.addObject("authorizationUrl", Shared.HOST + "authorization");
