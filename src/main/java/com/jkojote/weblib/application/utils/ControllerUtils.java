@@ -2,6 +2,7 @@ package com.jkojote.weblib.application.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import com.jkojote.weblib.application.Shared;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public final class ControllerUtils {
@@ -52,5 +55,13 @@ public final class ControllerUtils {
 
     public static ResponseEntity<String> responseJson(String json, HttpStatus status) {
         return new ResponseEntity<>(json, jsonUtf8Headers(), status);
+    }
+
+    public static Map<String, String> getHeaderHrefs() {
+        Map<String, String> res = new HashMap<>();
+        res.put("weblibUrl", Shared.HOST);
+        res.put("authorizationUrl", Shared.HOST + "authorization");
+        res.put("registrationUrl", Shared.HOST + "registration");
+        return res;
     }
 }

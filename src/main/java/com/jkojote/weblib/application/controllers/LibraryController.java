@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
+import static com.jkojote.weblib.application.utils.ControllerUtils.getHeaderHrefs;
 import static com.jkojote.weblib.application.utils.ControllerUtils.readCookie;
 
 @Controller
@@ -38,8 +39,7 @@ public class LibraryController {
             }
         }
         modelAndView.setViewName("main-page");
-        modelAndView.addObject("authorizationUrl", Shared.HOST + "authorization");
-        modelAndView.addObject("registrationUrl", Shared.HOST + "registration");
+        modelAndView.addAllObjects(getHeaderHrefs());
         return modelAndView;
     }
 

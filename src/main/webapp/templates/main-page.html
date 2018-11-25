@@ -13,19 +13,22 @@
 </head>
 <body ng-app="main-page" ng-controller="BooksController">
 <th:block th:switch="${email == null}">
-    <div th:case="true">
+    <th:block th:case="true">
         <header th:replace="fragments/header :: header">
-            <div class="pre-search-group">
-                <div class="profile-actions">
-                    <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
-                    <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
-                </div>
+            <div id="weblib-wrapper">
+                <a id="weblib" href="#" th:href="${weblibUrl}">
+                    WebLib
+                </a>
+            </div>
+            <div class="profile-actions">
+                <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
+                <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
             </div>
         </header>
-    </div>
-    <div th:case="false">
+    </th:block>
+    <th:block th:case="false" class="hidden">
         <header th:replace="fragments/logged-in :: header"></header>
-    </div>
+    </th:block>
 </th:block>
     <main>
         <!--<div id="open-filters">-->
@@ -123,7 +126,9 @@
             <div>
                 <div class="search-group">
                     <div data-filter data-filter-name="title">
-                        <input id="search" class="custom-input" type="text" data-filter-binding="name"/>
+                        <input id="search" class="custom-input"
+                               placeholder="Search title ..."
+                               type="text" data-filter-binding="name"/>
                     </div>
                     <div class="search-button">
                         <div id="search-icon">
@@ -193,6 +198,9 @@
         </div>
     </main>
 </body>
+<footer>
+Pseudo-digital library made by me
+</footer>
 <script src="../js/angular.min.js" th:src="@{/js/angular.min.js}"></script>
 <script src="../js/jquery.min.js" th:src="@{/js/jquery.min.js}"></script>
 <script src="../js/util.js" th:src="@{/js/util.js}"></script>

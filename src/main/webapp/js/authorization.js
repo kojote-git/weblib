@@ -9,10 +9,13 @@ submit.addEventListener("click", function (e) {
     xhr.setRequestHeader("Email", email.value);
     xhr.setRequestHeader("Password", password.value);
     xhr.addEventListener("load", function (e) {
-        if (xhr.status === 200)
+        if (xhr.status === 200) {
             window.open(URL, "_self", false);
-        let resp = JSON.parse(xhr.response);
-        alert(resp.error);
+        }
+        else {
+            let resp = JSON.parse(xhr.response);
+            alert(resp.error);
+        }
     });
     xhr.send();
 });

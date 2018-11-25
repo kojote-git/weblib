@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
+import static com.jkojote.weblib.application.utils.ControllerUtils.getHeaderHrefs;
 import static com.jkojote.weblib.application.utils.ControllerUtils.getNotFound;
 import static com.jkojote.weblib.application.utils.ControllerUtils.readCookie;
 
@@ -59,8 +60,7 @@ public class BookController {
                 modelAndView.addObject("email", email.get());
             }
         }
-        modelAndView.addObject("authorizationUrl", Shared.HOST + "authorization");
-        modelAndView.addObject("registrationUrl", Shared.HOST + "registration");
+        modelAndView.addAllObjects(getHeaderHrefs());
         return modelAndView;
     }
 

@@ -12,17 +12,15 @@
 </head>
 <body>
 <header th:fragment="header" class="logged-in-header">
-    <div class="header-grid">
-        <div class="header-info">
-
+    <div id="weblib-wrapper">
+        <a id="weblib" href="#" th:href="${weblibUrl}">WebLib</a>
+    </div>
+    <div class="header-user">
+        <div class="text-center">
+            Welcome, <span class="font-weight-bold" th:text="${email}">user</span>
         </div>
-        <div class="header-user">
-            <div class="text-center">
-                Welcome, <span class="font-weight-bold" th:text="${email}">user</span>
-            </div>
-            <div class="font-weight-bold text-right" id="logout">
-                Log Out
-            </div>
+        <div class="font-weight-bold text-right">
+            <span id="logout">Log Out</span>
         </div>
     </div>
 </header>

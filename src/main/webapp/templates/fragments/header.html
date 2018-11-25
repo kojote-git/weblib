@@ -12,11 +12,12 @@
 </head>
 <body>
 <header th:fragment="header">
-    <div class="pre-search-group">
-        <div class="profile-actions">
-            <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
-            <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
-        </div>
+    <div id="weblib-wrapper">
+        <a href="#" id="weblib" th:href="${weblibUrl}">WebLib</a>
+    </div>
+    <div class="profile-actions">
+        <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
+        <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
     </div>
 </header>
 </body>

@@ -8,10 +8,13 @@ submit.addEventListener("click", function (e) {
     xhr.setRequestHeader("Email", email.value);
     xhr.setRequestHeader("Password", password.value);
     xhr.addEventListener("load", function (e) {
-        if (xhr.status === 201)
-            window.open(URL + "authorization", "_self", false);
-        let resp = JSON.parse(xhr.response);
-        alert(resp.error);
+        if (xhr.status === 201) {
+            window.open(URL + "authorization", "_self", true);
+        }
+        else {
+            let resp = JSON.parse(xhr.response);
+            alert(resp.error);
+        }
     });
     xhr.send();
 });
