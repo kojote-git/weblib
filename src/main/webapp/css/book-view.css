@@ -17,10 +17,23 @@ img.book-cover {
 }
 
 .download-link:hover {
+    cursor: pointer;
+    text-decoration: underline;
     color: rgb(75, 75, 75);
 }
 
 .book-cover-wrapper {
     max-width: 250px;
     max-height: 367px;
+}
+
+.rating {
+    text-decoration: underline;
+    font-size: 16px;
+    color: rgb(75, 75, 75);
+}
+
+.rating:hover {
+    cursor: pointer;
+    color: rgb(120, 120, 120);
 }

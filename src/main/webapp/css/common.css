@@ -52,7 +52,6 @@ img {
 }
 
 .search-group {
-    max-width: 800px;
     display: grid;
     margin: 0 auto;
     grid-template-columns: auto 50px;

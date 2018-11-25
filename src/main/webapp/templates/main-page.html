@@ -14,10 +14,17 @@
 <body ng-app="main-page" ng-controller="BooksController">
 <th:block th:switch="${email == null}">
     <div th:case="true">
-        <header th:replace="fragments/header :: header"></header>
+        <header th:replace="fragments/header :: header">
+            <div class="pre-search-group">
+                <div class="profile-actions">
+                    <a href="#" th:href="${authorizationUrl}" class="profile-action">Sign In</a> |
+                    <a href="#" th:href="${registrationUrl}" class="profile-action">Sign Up</a>
+                </div>
+            </div>
+        </header>
     </div>
     <div th:case="false">
-        <header th:replace="fragments/logged-in-search :: header"></header>
+        <header th:replace="fragments/logged-in :: header"></header>
     </div>
 </th:block>
     <main>
@@ -113,6 +120,19 @@
             </div>
         </div>
         <div id="results">
+            <div>
+                <div class="search-group">
+                    <div data-filter data-filter-name="title">
+                        <input id="search" class="custom-input" type="text" data-filter-binding="name"/>
+                    </div>
+                    <div class="search-button">
+                        <div id="search-icon">
+                            <img src="../res/search-icon.png"
+                                 th:src="@{/res/search-icon.png}" alt="search"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div id="order-by-header">
                 <span class="order-by-text">Order By</span>
                 <div class="select-wrapper">

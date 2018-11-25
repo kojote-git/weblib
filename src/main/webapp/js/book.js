@@ -33,9 +33,24 @@ bookModule.controller("BookController", ["$http", "$scope", function ($http, $sc
             return "not rated yet";
         return rating;
     };
-    function getBookId() {
-        return parseInt(document.getElementById("book-id").innerText);
-    }
+    $scope.download = function (e) {
+        let target = e.currentTarget,
+            instanceId = parseInt(target.getAttribute("data-instance-id")),
+            email = getEmail(),
+            accessToken = getAccessToken();
+        window.open(target.getAttribute("data-file-url"));
+        if (!email && !accessToken)
+            return false;
+        $http
+            .put(URL + "rest/readers/downloading", {
+                    instanceId: instanceId
+                }, {
+                    headers: {
+                        "Email": email,
+                        "Access-token": accessToken
+                }
+            });
+    };
     if (logout) {
         logout.addEventListener("click", function (e) {
             let link = logout.getAttribute("data-ref"),
@@ -50,3 +65,6 @@ bookModule.controller("BookController", ["$http", "$scope", function ($http, $sc
         })
     }
 }]);
+function getBookId() {
+    return parseInt(document.getElementById("book-id").innerText);
+}

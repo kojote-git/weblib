@@ -231,9 +231,4 @@ mainPage.controller("BooksController", function BooksController($http, $scope) {
            $scope.subjects = shuffle(response.data.subjects).slice(0, 5);
         });
     $scope.loadBooks($scope.currentPage, $scope.pageSize);
-    function addEventListener(array, event, callback) {
-        for (let i = 0; i < array.length; i++) {
-            array[i].addEventListener(event, callback);
-        }
-    }
 });

@@ -4,13 +4,16 @@ import com.jkojote.library.domain.shared.domain.ViewObject;
 
 public class FormatView implements ViewObject {
 
+    private long instanceId;
+
     private String format;
 
     private String url;
 
-    public FormatView(String format, String url) {
+    public FormatView(String format, String url, long instanceId) {
         this.format = format;
         this.url = url;
+        this.instanceId = instanceId;
     }
 
     public String getFormat() {
@@ -19,5 +22,9 @@ public class FormatView implements ViewObject {
 
     public String getUrl() {
         return url;
+    }
+
+    public long getInstanceId() {
+        return instanceId;
     }
 }

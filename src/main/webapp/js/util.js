@@ -9,6 +9,12 @@ function shuffle(a) {
     return a;
 }
 
+function attachListener(array, event, callback) {
+    for (let i = 0; i < array.length; i++) {
+        array[i].addEventListener(event, callback);
+    }
+}
+
 function firstIndexOf(array, predicate) {
     for (let i = 0; i < array.length; i++) {
         if (predicate(array[i]))

@@ -2,7 +2,10 @@ package com.jkojote.weblib.application.controllers.rest;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+import com.jkojote.library.domain.model.book.Book;
 import com.jkojote.library.domain.model.book.instance.BookInstance;
+import com.jkojote.library.domain.model.reader.Rating;
 import com.jkojote.library.domain.model.reader.Reader;
 import com.jkojote.library.domain.shared.domain.DomainRepository;
 import com.jkojote.types.Email;
@@ -39,6 +42,8 @@ public class RestReaderController {
 
     private DomainRepository<BookInstance> bookInstanceRepository;
 
+    private DomainRepository<Book> bookRepository;
+
     private JsonParser jsonParser;
 
     @Autowired
@@ -46,10 +51,13 @@ public class RestReaderController {
                                 DomainRepository<Reader> readerRepository,
                                 @Qualifier("bookInstanceRepository")
                                 DomainRepository<BookInstance> bookInstanceRepository,
+                                @Qualifier("bookRepository")
+                                DomainRepository<Book> bookRepository,
                                 AuthorizationService authorizationService) {
         this.readerRepository = readerRepository;
         this.authorizationService = authorizationService;
         this.bookInstanceRepository = bookInstanceRepository;
+        this.bookRepository = bookRepository;
         this.jsonParser = new JsonParser();
     }
 
@@ -116,7 +124,7 @@ public class RestReaderController {
     throws IOException  {
         String accessToken = req.getHeader("Access-token");
         String email = req.getHeader("Email");
-        if (authorizationService.checkToken(email, accessToken))
+        if (!authorizationService.checkToken(email, accessToken))
             return errorResponse("authorization required", UNAUTHORIZED);
         Reader reader = readerRepository.findAll(r ->
                 r.getEmail().equals(Email.of(email))).get(0);
@@ -126,6 +134,38 @@ public class RestReaderController {
             BookInstance bookInstance = bookInstanceRepository.findById(id);
             reader.addToDownloadHistory(bookInstance);
             return responseMessage("download's been saved", OK);
+        } catch (JsonSyntaxException e) {
+            return errorResponse("malformed request", BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("rating")
+    @CrossOrigin
+    public ResponseEntity<String> setRating(HttpServletRequest req)
+    throws IOException {
+        String accessToken = req.getHeader("Access-token");
+        String email = req.getHeader("Email");
+        if (!authorizationService.checkToken(email, accessToken))
+            return errorResponse("authorization required", UNAUTHORIZED);
+        Reader reader = readerRepository.findAll(r ->
+                r.getEmail().equals(Email.of(email))).get(0);
+        try (BufferedReader r = req.getReader()) {
+            JsonObject json = jsonParser.parse(r).getAsJsonObject();
+            long id = json.get("bookId").getAsLong();
+            int ratingValue = json.get("rating").getAsInt();
+            Book book = bookRepository.findById(id);
+            if (book == null)
+                return errorResponse("no such book exists", NOT_FOUND);
+            Rating rating = new Rating(reader, book, ratingValue);
+            if (reader.getRatings().contains(rating))
+                reader.updateRating(rating);
+            else
+                reader.addToRating(rating);
+            return responseMessage("rating updated", OK);
+        } catch (JsonSyntaxException e) {
+            return errorResponse("malformed request", BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return errorResponse(e.getMessage(), BAD_REQUEST);
         }
     }
 

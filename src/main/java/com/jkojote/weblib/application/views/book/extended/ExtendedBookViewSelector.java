@@ -81,7 +81,7 @@ class ExtendedBookViewSelector implements ViewSelector<ExtendedBookView> {
     private List<FormatView> getFormatViews(long bookId) {
         return jdbcTemplate.query(SELECT_FORMAT_VIEWS, (rs, rn) -> {
            String url = Shared.LISE + "rest/instances/" + rs.getLong("bookInstance.id") + "/file";
-           return new FormatView(rs.getString("bookInstance.format"), url);
+           return new FormatView(rs.getString("bookInstance.format"), url, rs.getLong("bookInstance.id"));
         }, bookId);
     }
 }
